@@ -18,7 +18,7 @@ const productos = [
     icon: "🪟", name: "Windows 11 Pro",
     imagen: "img/Windows 11 Pro.png",
     short: "Licencia permanente, activación inmediata.",
-    price: "$1",
+    price: "30",
     desc: "Aquí descripción del producto.",
     features: ["Licencia permanente para 1 PC", "Activación vía clave de producto", "Soporte para actualizaciones futuras", "Compatible con todo el hardware moderno"],
     specs: [
@@ -33,7 +33,7 @@ const productos = [
     icon: "🪟", name: "Windows 10 Pro",
     imagen: "img/Windows 10 Pro.png",
     short: "La versión clásica y estable más usada en el mundo.",
-    price: "$1",
+    price: "s/30",
     desc: "Aquí descripción del producto.",
     features: ["Licencia permanente para 1 PC", "Ideal para equipos antiguos", "Soporte extendido hasta 2025", "Activación inmediata por clave"],
     specs: [
@@ -50,7 +50,7 @@ const productos = [
     icon: "📄", name: "Office 2024 Plus",
     imagen: "img/Office 2024 Professional Plus.png",
     short: "Word, Excel, PowerPoint y más. Permanente.",
-    price: "$1",
+    price: "s/30",
     desc: "Aquí descripción del producto.",
     features: ["Word, Excel, PowerPoint, Outlook", "Licencia permanente sin suscripción", "Incluye OneNote y Publisher", "1 instalación en PC o Mac"],
     specs: [
@@ -67,7 +67,7 @@ const productos = [
     icon: "🛡️", name: "McAfee Internet Security 1 año",
     imagen: "img/McAfee Internet Security.png",
     short: "Protección total contra virus y amenazas online.",
-    price: "$1",
+    price: "s/25",
     desc: "Aquí descripción del producto.",
     features: ["Protección en tiempo real", "Anti-phishing y firewall incluido", "Licencia por 1 año", "Compatible con Windows y Mac"],
     specs: [
@@ -82,7 +82,7 @@ const productos = [
     icon: "🔐", name: "ESET Internet Security 1 año",
     imagen: "img/ESET Internet Security.png",
     short: "Seguridad avanzada con bajo consumo de recursos.",
-    price: "$1",
+    price: "s/45",
     desc: "Aquí descripción del producto.",
     features: ["Detección de amenazas avanzadas", "Baja carga en el sistema", "Control parental incluido", "1 año de protección garantizada"],
     specs: [
@@ -99,7 +99,7 @@ const productos = [
     icon: "🎨", name: "Adobe Photoshop",
     imagen: "img/Adobe Photoshop.png",
     short: "El editor de imágenes profesional más usado del mundo.",
-    price: "$1",
+    price: "s/50",
     desc: "Aquí descripción del producto.",
     features: ["Edición profesional de imágenes", "IA generativa integrada", "Compatible con formatos RAW", "Actualizaciones incluidas"],
     specs: [
@@ -114,7 +114,7 @@ const productos = [
     icon: "✏️", name: "CorelDRAW Standard 2021",
     imagen: "img/CorelDRAW Standard 2021.jpg",
     short: "Diseño vectorial profesional para logos y gráficos.",
-    price: "$1",
+    price: "s/20",
     desc: "Aquí descripción del producto.",
     features: ["Diseño vectorial ilimitado", "Integración con Photoshop", "Herramientas de tipografía avanzada", "Compatible con SVG, EPS, PDF"],
     specs: [
@@ -129,7 +129,7 @@ const productos = [
     icon: "🎬", name: "Wondershare Filmora 15",
     imagen: "img/Wondershare Filmora.png",
     short: "Edición de video profesional para creadores.",
-    price: "$1",
+    price: "s/120",
     desc: "Aquí descripción del producto.",
     features: ["Edición de video en 4K y 8K", "Integración con After Effects", "IA para edición automática", "Exportación a múltiples formatos"],
     specs: [
@@ -146,7 +146,7 @@ const productos = [
     icon: "🍿", name: "Crunchyroll Mega Fan 1 año",
     imagen: "img/Crunchyroll.png",
     short: "Todo el anime sin anuncios por 1 año completo.",
-    price: "$1",
+    price: "s/35",
     desc: "Aquí descripción del producto.",
     features: ["Acceso ilimitado a todo el catálogo", "Sin anuncios", "HD y 4K disponible", "Válido por 1 año completo"],
     specs: [
@@ -161,7 +161,7 @@ const productos = [
     icon: "📦", name: "Perplexity PRO - 1 Year",
     imagen: "img/perplexity pro.png",
     short: "Búsqueda con IA avanzada. Todo incluido.",
-    price: "$1",
+    price: "s/40",
     desc: "Aquí descripción del producto.",
     features: ["Búsqueda con IA avanzada", "Respuestas precisas y verificadas", "Sin límites de uso", "1 año de suscripción completa"],
     specs: [
@@ -173,10 +173,10 @@ const productos = [
   },
   {
     id: 11, cat: "streaming", destacado: false, badgeType: "new",
-    icon: "🤖", name: "ChatGPT Plus 1 año",
+    icon: "🤖", name: "ChatGPT Plus 1 mes",
     imagen: "img/ChatGPT.png",
     short: "Acceso a GPT-4 e IA avanzada por 1 año completo.",
-    price: "$1",
+    price: "s/10",
     desc: "Aquí descripción del producto.",
     features: ["Acceso a GPT-4 y GPT-4o", "Sin límites de uso diario", "DALL·E para generación de imágenes", "1 año de acceso premium"],
     specs: [
@@ -193,7 +193,7 @@ const productos = [
     icon: "📑", name: "Nitro PDF Pro 2021",
     imagen: "img/Nitro PDF 2021 Pro.png",
     short: "Crea, edita y convierte PDFs como un profesional.",
-    price: "$1",
+    price: "s/20",
     desc: "Aquí descripción del producto.",
     features: ["Edición completa de archivos PDF", "Conversión a Word, Excel, PowerPoint", "Firma digital incluida", "Licencia permanente para 1 PC"],
     specs: [
