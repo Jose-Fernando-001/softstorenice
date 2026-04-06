@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoftStoreNice – Software Original al Mejor Precio</title>
+  <meta name="description" content="Compra software original: Windows, Office, Antivirus, Adobe, Streaming y más. Entrega 100% remota e inmediata vía WhatsApp." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     📝 SECCIÓN DE NOTAS PARA EL DESARROLLADOR
+     ------------------------------------------------------------
+     Este bloque está oculto en la página (display:none).
+     Contiene recordatorios y tareas pendientes para quien
+     trabaje en el proyecto en el futuro.
+
+     PARA MOSTRAR ESTE BLOQUE: cambia display:none por display:block
+     o simplemente búscalo en el código para leer las notas.
+     ============================================================
+
+<div id="devNotes" style="display:none;">
+
+  ✅ TAREAS COMPLETADAS:
+  - Carrusel automático en sección de destacados
+  - Transición fluida entre modo oscuro y claro
+  - Scroll centrado al seleccionar una categoría
+  - Comentarios en español en los 3 archivos
+
+  🔧 PENDIENTE / POR HACER:
+  - Cambiar el número de WhatsApp: busca "51999999999" en script.js
+  - Reemplazar las descripciones de producto ("Aquí descripción...")
+  - Agregar imágenes reales de productos (ver notas en script.js)
+  - Configurar dominio y hosting
+  - Implementar sistema de pago (ver bloque comentado en HTML)
+  - Agregar Google Analytics o Meta Pixel
+
+  💡 AGREGAR UN PRODUCTO NUEVO:
+  1. Abre script.js
+  2. Copia un bloque de producto existente en la BD
+  3. Cambia el id (número único), cat, icon, name, short, price
+  4. Rellena desc, features y specs
+  5. Si quiere que aparezca en "Más buscados": pon destacado: true
+
+  💡 AGREGAR UNA CATEGORÍA NUEVA:
+  1. En script.js → renderCatalogo() → añade en catNames
+  2. En index.html → añade un <button class="cat-btn"> en .cat-nav
+  3. También añade el mismo botón en .mobile-menu
+
+  🎨 CAMBIAR COLORES:
+  - Edita las variables en style.css dentro de :root (modo claro)
+    y [data-theme="dark"] (modo oscuro)
+
+  ⏱ VELOCIDAD DEL CARRUSEL:
+  - Cambia el valor de INTERVALO_MS en script.js (~línea 90)
+    Ejemplo: 3500 = 3.5 segundos entre slides
+
+</div>
+-->
+
+<!-- ============================================================
+     HEADER STICKY
+     ------------------------------------------------------------
+     Barra superior fija. Contiene:
+     - Logo (lleva a inicio)
+     - Menú de categorías (.cat-nav) — se oculta en móvil
+     - Botón de tema claro/oscuro
+     - Botón de WhatsApp
+     - Hamburguesa (solo visible en móvil)
+     ============================================================ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+
+    <!-- Logo: usa la imagen real SoftStoreNice.png. Al hacer clic vuelve al inicio.
+         NOTA: Se reemplazó el SVG genérico por la imagen de marca oficial. -->
+    <a href="#" class="logo logo-img" onclick="showPage('home')">
+      <img src="img/SoftStoreNice.png" alt="SoftStoreNice" class="logo-image">
+    </a>
+
+    <!-- MENÚ DE CATEGORÍAS (desktop) -->
+    <!-- NOTA: Para agregar una categoría, copia un <button> y
+         cambia data-cat y el texto. También añádelo en .mobile-menu -->
+    <nav class="cat-nav" aria-label="Categorías">
+      <button class="cat-btn active" data-cat="all"       onclick="filterCat('all',this)">🏠 Todo</button>
+      <button class="cat-btn"        data-cat="windows"   onclick="filterCat('windows',this)">🪟 Windows</button>
+      <button class="cat-btn"        data-cat="office"    onclick="filterCat('office',this)">📄 Office</button>
+      <button class="cat-btn"        data-cat="antivirus" onclick="filterCat('antivirus',this)">🛡️ Antivirus</button>
+      <button class="cat-btn"        data-cat="adobe"     onclick="filterCat('adobe',this)">🎨 Adobe</button>
+      <button class="cat-btn"        data-cat="streaming" onclick="filterCat('streaming',this)">🎬 Streaming</button>
+      <button class="cat-btn"        data-cat="pdf"       onclick="filterCat('pdf',this)">📑 PDF</button>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Botón de cambio de tema (oscuro/claro) -->
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">🌙</button>
+
+      <!-- Botón de WhatsApp — CAMBIAR EL NÚMERO AQUÍ -->
+      <a href="https://wa.me/51994040462?text=Hola,%20quiero%20información%20sobre%20sus%20productos"
+         target="_blank" rel="noopener" class="btn-whatsapp-header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.524 5.845L.057 23.143a.5.5 0 0 0 .614.614l5.298-1.467A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.5-5.176-1.373l-.372-.214-3.862 1.07 1.086-3.748-.233-.385A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        </svg>
+        WhatsApp
+      </a>
+
+      <!-- Botón hamburguesa (solo en móvil) -->
+      <button class="hamburger" id="hamburger" aria-label="Menú" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </div>
+
+  <!-- MENÚ MÓVIL — se despliega al tocar la hamburguesa -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="cat-btn" onclick="filterCat('all',this);toggleMobileMenu()">🏠 Todo</button>
+    <button class="cat-btn" onclick="filterCat('windows',this);toggleMobileMenu()">🪟 Windows</button>
+    <button class="cat-btn" onclick="filterCat('office',this);toggleMobileMenu()">📄 Office</button>
+    <button class="cat-btn" onclick="filterCat('antivirus',this);toggleMobileMenu()">🛡️ Antivirus</button>
+    <button class="cat-btn" onclick="filterCat('adobe',this);toggleMobileMenu()">🎨 Adobe</button>
+    <button class="cat-btn" onclick="filterCat('streaming',this);toggleMobileMenu()">🎬 Streaming</button>
+    <button class="cat-btn" onclick="filterCat('pdf',this);toggleMobileMenu()">📑 PDF</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     PÁGINA: INICIO (HOME)
+     ============================================================ -->
+<main id="pageHome">
+
+  <!-- ── HERO BANNER ──────────────────────────────────────────
+       Sección principal de bienvenida con título, descripción
+       y botones de acción. Las tarjetas flotantes son decorativas.
+       ─────────────────────────────────────────────────────── -->
+  <section class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-badge">⚡ Entrega inmediata 100% remota</div>
+      <h1>Software original,<br><span class="hero-highlight">al mejor precio</span></h1>
+      <!-- MODIFICADO: descripción actualizada para reflejar el servicio de instalación
+           remota vía TeamViewer/AnyDesk que ofrece el vendedor -->
+      <p>Licencias originales de Windows, Office, Antivirus, Adobe y más. Te instalo y activo el software de forma remota en tu PC — sin que salgas de casa. Solo necesitas internet.</p>
+      <div class="hero-ctas">
+        <!-- CAMBIAR EL NÚMERO DE WHATSAPP EN ESTE ENLACE -->
+        <a href="https://wa.me/51994040462?text=Hola,%20quiero%20comprar%20software"
+           target="_blank" rel="noopener" class="btn-primary-hero">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.524 5.845L.057 23.143a.5.5 0 0 0 .614.614l5.298-1.467A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.5-5.176-1.373l-.372-.214-3.862 1.07 1.086-3.748-.233-.385A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          </svg>
+          Comprar por WhatsApp
+        </a>
+        <button class="btn-secondary-hero" onclick="scrollToCatalog()">Ver catálogo ↓</button>
+      </div>
+      <div class="hero-trust">
+        <span>✅ Activación garantizada</span>
+        <span>⚡ Entrega en minutos</span>
+        <span>🔒 Pago seguro</span>
+      </div>
+    </div>
+
+    <!-- Tarjetas decorativas animadas — MODIFICADO: ahora muestran la imagen
+         real del producto en lugar del emoji, para mayor impacto visual -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-float-card">
+        <!-- MODIFICADO: imagen real Windows 11 Pro en lugar del emoji 🪟 -->
+        <img src="img/Windows 11 Pro.png" alt="Windows 11 Pro" class="hfc-img">
+        <div>
+          <div class="hfc-name">Windows 11 Pro</div>
+          <div class="hfc-tag">Más vendido</div>
+        </div>
+        <div class="hfc-price">$1</div>
+      </div>
+      <div class="hero-float-card delay1">
+        <!-- MODIFICADO: imagen real Office 2024 Plus en lugar del emoji 📄 -->
+        <img src="img/Office 2024 Professional Plus.png" alt="Office 2024 Plus" class="hfc-img">
+        <div>
+          <div class="hfc-name">Office 2024 Plus</div>
+          <div class="hfc-tag">Permanente</div>
+        </div>
+        <div class="hfc-price">$1</div>
+      </div>
+      <div class="hero-float-card delay2">
+        <!-- MODIFICADO: imagen real Adobe Photoshop en lugar del emoji 🎨 -->
+        <img src="img/Adobe Photoshop.png" alt="Adobe Photoshop" class="hfc-img">
+        <div>
+          <div class="hfc-name">Adobe Photoshop</div>
+          <div class="hfc-tag">Profesional</div>
+        </div>
+        <div class="hfc-price">$1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECCIÓN DESTACADOS (CARRUSEL) ────────────────────────
+       Muestra los productos con destacado: true en un slider
+       automático. El contenido lo genera script.js en renderCarrusel().
+       El id="catalogSection" es el punto de scroll al filtrar.
+       ─────────────────────────────────────────────────────── -->
+  <section class="section-destacados" id="catalogSection">
+    <div class="section-header">
+      <h2>🔥 Más buscados</h2>
+      <p>Los productos más populares de nuestra tienda</p>
+    </div>
+    <!-- El carrusel se inyecta aquí por JavaScript (renderCarrusel) -->
+    <div id="destacadosGrid"></div>
+  </section>
+
+  <!-- ── CATÁLOGO COMPLETO (GRID) ─────────────────────────────
+       Muestra todos los productos o los filtrados por categoría.
+       El título y el contenido los genera script.js en renderCatalogo().
+       ─────────────────────────────────────────────────────── -->
+  <section class="section-catalogo">
+    <div class="section-header">
+      <h2 id="catalogTitle">📦 Catálogo completo</h2>
+    </div>
+    <!-- Las tarjetas de producto se inyectan aquí por JavaScript -->
+    <div class="productos-grid" id="productosGrid"></div>
+  </section>
+
+  <!-- ── POR QUÉ ELEGIRNOS ──────────────────────────────────── -->
+  <section class="section-why">
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3>Entrega inmediata</h3>
+        <p>Recibes tu licencia en minutos por WhatsApp o correo.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔒</div>
+        <h3>100% original</h3>
+        <p>Todas las licencias son originales y garantizadas.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🛠️</div>
+        <h3>Soporte incluido</h3>
+        <p>Te ayudamos con la instalación y activación sin costo extra.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💬</div>
+        <h3>Atención 7 días</h3>
+        <p>Estamos disponibles todos los días para ayudarte.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     PÁGINA: DETALLE DE PRODUCTO
+     ------------------------------------------------------------
+     Se muestra cuando el usuario hace clic en un producto.
+     El contenido lo rellena script.js en showProduct(id).
+     Está oculta por defecto (display:none).
+     ============================================================ -->
+<div id="pageProduct" style="display:none;">
+  <div class="product-page">
+
+    <!-- Ruta de navegación (breadcrumb) -->
+    <nav class="breadcrumb" aria-label="Ruta">
+      <button onclick="showPage('home')" class="breadcrumb-link">Inicio</button>
+      <span>›</span>
+      <span id="prodBreadCat"></span>
+      <span>›</span>
+      <span id="prodBreadName"></span>
+    </nav>
+
+    <!-- Detalle principal: imagen + info -->
+    <div class="product-detail">
+
+      <!-- Caja de imagen del producto -->
+      <!-- NOTA: Para mostrar imágenes reales, descomenta el <img>
+           de abajo y agrega el campo "imagen" a cada producto en script.js -->
+      <div class="product-image-box">
+        <div class="product-image-placeholder" id="prodImagePlaceholder" style="display:none;">
+          <span id="prodImageIcon" style="font-size:5rem;">📦</span>
+          <p class="img-note">Imagen disponible próximamente</p>
+        </div>
+        <img id="prodImage" src="" alt="" style="width:100%;max-width:500px;border-radius:16px;object-fit:contain;" loading="lazy">
+      </div>
+
+      <!-- Información del producto (se rellena por JS) -->
+      <div class="product-info">
+        <div class="prod-cat-badge" id="prodCatBadge"></div>
+        <h1 id="prodName"></h1>
+        <div class="prod-rating">⭐⭐⭐⭐⭐ <span>(Licencia original)</span></div>
+
+        <div class="prod-price-box">
+          <span class="prod-price" id="prodPrice"></span>
+          <span class="prod-price-note">Precio por licencia</span>
+        </div>
+
+        <!-- Lista de características del producto -->
+        <ul class="prod-features" id="prodFeatures"></ul>
+
+        <!-- Información de entrega -->
+        <div class="prod-delivery">
+          <div class="delivery-item">
+            <span class="delivery-icon">⚡</span>
+            <div>
+              <strong>Entrega remota inmediata</strong>
+              <p>Recibes tu licencia por WhatsApp en minutos</p>
+            </div>
+          </div>
+          <div class="delivery-item">
+            <span class="delivery-icon">🛠️</span>
+            <div>
+              <strong>Instalación asistida incluida</strong>
+              <p>Te ayudamos a instalar y activar sin costo extra</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZONA RESERVADA PARA FUTURO SISTEMA DE PAGO:
+             Descomenta esto cuando implementes carrito/pasarela de pago
+        <div class="payment-section" id="paymentSection" style="display:none;">
+          <button class="btn-add-cart">Agregar al carrito</button>
+        </div> -->
+
+        <!-- Botón de compra por WhatsApp (enlace generado por JS) -->
+        <a href="#" id="prodWaBtn" target="_blank" rel="noopener" class="btn-buy-whatsapp">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.524 5.845L.057 23.143a.5.5 0 0 0 .614.614l5.298-1.467A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.5-5.176-1.373l-.372-.214-3.862 1.07 1.086-3.748-.233-.385A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          </svg>
+          Comprar por WhatsApp
+        </a>
+
+        <p class="prod-wa-note">Al hacer clic serás redirigido a WhatsApp para coordinar tu compra</p>
+      </div>
+    </div>
+
+    <!-- Descripción larga y tabla de especificaciones -->
+    <div class="product-description">
+      <h2>Descripción del producto</h2>
+      <p id="prodDesc"></p>
+      <div class="prod-specs" id="prodSpecs"></div>
+    </div>
+
+    <!-- Productos relacionados (misma categoría) -->
+    <div class="related-section">
+      <h2>También te puede interesar</h2>
+      <div class="productos-grid" id="relatedGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <!-- Logo footer — también usa la imagen oficial SoftStoreNice.png -->
+      <a href="#" class="logo logo-img" onclick="showPage('home')">
+        <img src="img/SoftStoreNice.png" alt="SoftStoreNice" class="logo-image logo-image--footer">
+      </a>
+      <p>Software original con entrega remota inmediata. Activación garantizada vía WhatsApp.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Categorías</h4>
+      <ul>
+        <li><button onclick="filterCat('windows',null);scrollToCatalog()">🪟 Windows</button></li>
+        <li><button onclick="filterCat('office',null);scrollToCatalog()">📄 Office</button></li>
+        <li><button onclick="filterCat('antivirus',null);scrollToCatalog()">🛡️ Antivirus</button></li>
+        <li><button onclick="filterCat('adobe',null);scrollToCatalog()">🎨 Adobe</button></li>
+        <li><button onclick="filterCat('streaming',null);scrollToCatalog()">🎬 Streaming</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Información</h4>
+      <ul>
+        <li><a href="#como-funciona">¿Cómo funciona?</a></li>
+        <li><a href="#garantia">Garantía</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="https://wa.me/51994040462" target="_blank" rel="noopener">WhatsApp</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <!-- NOTA: Actualiza el número de teléfono, email y horario aquí -->
+      <h4>Contáctanos</h4>
+      <p>📱 +51 994 040 462</p>
+      <p>📧 ventas@softstorepe.com</p>
+      <p>🕐 Lun–Dom · 8am – 10pm</p>
+      <a href="https://wa.me/51994040462?text=Hola,%20necesito%20ayuda"
+         target="_blank" rel="noopener" class="btn-footer-wa">
+        Escribirnos ahora
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SoftStoreNice. Todos los derechos reservados.</p>
+    <p>Hecho con ❤️ en Perú</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
