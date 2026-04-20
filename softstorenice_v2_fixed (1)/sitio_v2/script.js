@@ -242,16 +242,13 @@ function renderCarrusel() {
   const dests = productos.filter(p => p.destacado);
 
   wrapper.innerHTML = `
-    <div class="carousel-wrapper">
+    <div class="carousel-outer">
       <button class="carousel-btn carousel-prev" onclick="moverCarrusel(-1)" aria-label="Anterior">&#8249;</button>
       <div class="carousel-track-container">
         <div class="carousel-track" id="carouselTrack">
           ${dests.map(p => `
-            <div class="dest-card fade-in" onclick="showProduct(${p.id})">
+            <div class="dest-card" onclick="showProduct(${p.id})">
               ${p.imagen
-                /* CORRECCIÓN: Se muestra la imagen real del producto envuelta en un
-                   contenedor con altura fija + object-fit:contain para que no se recorte.
-                   Si no hay imagen, se muestra el emoji como respaldo. */
                 ? `<div class="dest-card-img-wrap">
                      <img class="dest-card-img" src="${p.imagen}" alt="${p.name}" loading="lazy">
                    </div>`
@@ -274,16 +271,11 @@ function renderCarrusel() {
   recalcularCarrusel();
   observeFadeIn();
 
-  const cw = wrapper.querySelector('.carousel-wrapper');
-  cw.addEventListener('mouseenter', () => { carouselPaused = true; });
-  cw.addEventListener('mouseleave', () => { carouselPaused = false; });
-
   window.addEventListener('resize', () => {
     recalcularCarrusel();
-    irASlide(0);
+    irASlide(carouselIndex);
   });
-
-  iniciarAutoSlide();
+  // Sin auto-slide: el carrusel solo se mueve con clic en flechas
 }
 
 function recalcularCarrusel() {
@@ -555,6 +547,10 @@ function scrollToCatalog() {
   const btn  = document.getElementById('themeToggle');
   const html = document.documentElement;
   let dark   = matchMedia('(prefers-color-scheme: dark)').matches;
+  let clickCount = 0;
+  let clickTimer = null;
+  let rgbMode = false;
+  let rgbInterval = null;
 
   const aplicarTema = (isDark) => {
     html.classList.add('theme-transitioning');
@@ -563,11 +559,49 @@ function scrollToCatalog() {
     setTimeout(() => html.classList.remove('theme-transitioning'), 700);
   };
 
+  const activarRGB = () => {
+    rgbMode = true;
+    html.classList.add('rgb-mode');
+    btn.textContent = '🌈';
+    // Animación de fondo RGB en el body
+    let hue = 0;
+    rgbInterval = setInterval(() => {
+      hue = (hue + 1) % 360;
+      document.body.style.setProperty('--rgb-hue', hue);
+    }, 16);
+  };
+
+  const desactivarRGB = () => {
+    rgbMode = false;
+    html.classList.remove('rgb-mode');
+    clearInterval(rgbInterval);
+    document.body.style.removeProperty('--rgb-hue');
+    aplicarTema(dark);
+  };
+
   aplicarTema(dark);
 
   btn.addEventListener('click', () => {
-    dark = !dark;
-    aplicarTema(dark);
+    clickCount++;
+    clearTimeout(clickTimer);
+
+    if (clickCount >= 7) {
+      clickCount = 0;
+      if (rgbMode) {
+        desactivarRGB();
+      } else {
+        activarRGB();
+      }
+      return;
+    }
+
+    clickTimer = setTimeout(() => {
+      if (!rgbMode) {
+        dark = !dark;
+        aplicarTema(dark);
+      }
+      clickCount = 0;
+    }, 400);
   });
 })();
 
